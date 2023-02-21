@@ -26,7 +26,8 @@ jobs:
     needs: build
     steps:
       - name: Run a online script
-        run:  npm run start
+        run: npm install
+        run: npm run start
 
 
   deploy-staging:
