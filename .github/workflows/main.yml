@@ -10,24 +10,22 @@ jobs:
   
     steps:
     - name: Run a one-line script
-      run: echo Hello, world!
+      run: npm install
 
   deploy-dev:
     runs-on: ubuntu-latest
     environment:
       name: dev
-      url: 'spaceodyssey.com.br'
     needs: build
     steps:
       - name: Run a online script
-        run: echo Deploy Dev
+        run:  npm run start
 
 
   deploy-staging:
     runs-on: ubuntu-latest
     environment:
       name: staging
-      url: 'spaceodyssey.com.br'
     needs: deploy-dev
     steps:
       - name: Run a online script
@@ -37,7 +35,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: prod
-      url: 'spaceodyssey.com.br'
     needs: deploy-staging
     steps:
       - name: Run a online script

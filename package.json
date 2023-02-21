@@ -1,0 +1,33 @@
+{
+  "name": "test-cicd",
+  "version": "1.0.0",
+  "description": "First test about CI/CD pipelines",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "dev": "nodemon"
+  },
+  "author": "Marcos Vinicius Melo",
+  "license": "ISC",
+  "homepage": "",
+  "dependencies": {
+    "@forkjs/group-router": "^1.0.5",
+    "app-root-path": "^3.1.0",
+    "axios": "^0.21.1",
+    "body-parser": "^1.20.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.20",
+    "utf8": "^3.0.0",
+    "uuid": "^9.0.0"
+  },
+  "nodemonConfig": {
+    "exec": "node index -dev",
+    "ignore": [
+      "./logs/"
+    ]
+  }
+}
