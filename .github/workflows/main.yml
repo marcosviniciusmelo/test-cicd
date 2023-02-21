@@ -1,0 +1,44 @@
+name: test-main
+
+on:
+  push:
+    branches: [ main ]
+  
+jobs:
+  build:
+    run-on: ubuntu-latest
+  
+    steps:
+    - name: Run a one-line script
+      run: echo Hello, world!
+
+  deploy-dev:
+    runs-on: ubuntu-latest
+    environment:
+      name: dev
+      url: 'spaceodyssey.com.br'
+    needs: build
+    steps:
+      - name: Run a online script
+        run: echo Deploy Dev
+
+
+  deploy-staging:
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: 'spaceodyssey.com.br'
+    needs: deploy-dev
+    steps:
+      - name: Run a online script
+        run: echo Deploy staging
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+      url: 'spaceodyssey.com.br'
+    needs: deploy-staging
+    steps:
+      - name: Run a online script
+        run: echo Deploy prod
