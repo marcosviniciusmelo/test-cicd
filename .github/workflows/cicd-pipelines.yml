@@ -21,8 +21,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm ci
-      - run: npm start --if-present
-      - run: npm test --if-present
+      - run: npm install && npm test
 
   deploy-staging:
     runs-on: ubuntu-latest
@@ -31,10 +30,7 @@ jobs:
     needs: deploy-dev
     steps:
       - name: Run a online script
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      - run: npm start
+        run: echo deploy-staging
 
   deploy-prod:
     runs-on: ubuntu-latest
@@ -43,4 +39,4 @@ jobs:
     needs: deploy-staging
     steps:
       - name: Run a online script
-        run: echo Deploy prod
+        run: echo deploy-prod
