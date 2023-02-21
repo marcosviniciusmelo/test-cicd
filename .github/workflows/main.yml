@@ -5,7 +5,8 @@ on:
     branches: [ main ]
   
 jobs:
-  build:
+
+  deploy-dev:
     runs-on: ubuntu-latest
   
     strategy:
@@ -14,22 +15,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Run a online script
-        run: npm install
 
-  deploy-dev:
-    runs-on: ubuntu-latest
-    environment:
-      name: dev
-    needs: build
-    steps:
-      - name: Run a online script
-        run: npm run start
-
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run start --if-present
 
   deploy-staging:
     runs-on: ubuntu-latest
