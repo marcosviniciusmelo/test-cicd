@@ -23,7 +23,7 @@ jobs:
 
       - name: npm install, build, and test
         run: npm install
-        run: sudo npm run start
+        run: npm start
 
   deploy-staging:
     runs-on: ubuntu-latest
