@@ -4,8 +4,8 @@
   "description": "First test about CI/CD pipelines",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "dev": "nodemon"
+    "start": "node index.js",
+    "test": "jest src/app.test.js"
   },
   "author": "Marcos Vinicius Melo",
   "license": "ISC",

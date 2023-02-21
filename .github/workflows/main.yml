@@ -30,7 +30,10 @@ jobs:
     needs: deploy-dev
     steps:
       - name: Run a online script
-        run: echo Deploy staging
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm start
 
   deploy-prod:
     runs-on: ubuntu-latest
