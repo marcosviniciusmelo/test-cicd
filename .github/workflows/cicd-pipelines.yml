@@ -3,8 +3,8 @@ name: OTS - Control Api Pipeline
 on:
   push:
     branches: [ main ]
-  # pull_request:
-  #   branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 # Variables
@@ -18,6 +18,7 @@ jobs:
   # Build the project
   build:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -33,6 +34,9 @@ jobs:
           npm ci
           npm run build --if-present
           popd
+
+      - name: Final step just push
+        run: echo "Final"
 
   # # Run unit tests
   # test:
