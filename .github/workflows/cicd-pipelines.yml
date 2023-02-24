@@ -3,8 +3,8 @@ name: OTS - Control Api Pipeline
 on:
   push:
     branches: [ main ]
-  # pull_request:
-  #   branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 # Variables
@@ -33,6 +33,10 @@ jobs:
           npm ci
           npm run build --if-present
           popd
+
+      if: github.event_name == "pull_request"
+      - name: Final step just push
+        run: echo "Final"
 
   # # Run unit tests
   # test:
