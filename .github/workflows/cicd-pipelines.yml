@@ -34,7 +34,7 @@ jobs:
           npm run build --if-present
           popd
 
-      if: github.event_name == "pull_request"
+      if: github.event.pull_request.merged == true
       - name: Final step just push
         run: echo "Final"
 
