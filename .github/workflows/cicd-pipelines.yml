@@ -125,6 +125,7 @@ jobs:
           npm run build --if-present
           popd
 
+      if: github.event_name = 'push'
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
         id: fa
