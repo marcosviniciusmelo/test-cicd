@@ -107,7 +107,6 @@ jobs:
   publish:  
     runs-on: ubuntu-latest
     needs: [test]
-    environment: dev
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -125,11 +124,10 @@ jobs:
           npm run build --if-present
           popd
 
-      if: github.event_name = 'push'
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
         id: fa
         with:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE_DEV }} # Remove publish-profile to use Azure RBAC
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE_2 }} # Remove publish-profile to use Azure RBAC
