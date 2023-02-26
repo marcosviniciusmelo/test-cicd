@@ -1,9 +1,6 @@
-describe('test E2E', () => {
-  // it('passes', () => {
-  //   cy.visit('https://example.cypress.io')
-  // })
+describe('Test E2E', () => {
 
-  it('Step 01: Test first endpoint', () => {
+  it('Step 01: First endpoint', () => {
 
     cy.request({
       method: "get",
