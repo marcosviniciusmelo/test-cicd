@@ -1,0 +1,26 @@
+name: OTS - OTS APP Pipeline
+
+on:
+  push:
+    branches: [ development ]
+  pull_request:
+    branches: [ development ]
+  workflow_dispatch:
+
+
+# Variables
+env:
+  NODE_VERSION: '18.x'                      # set this to the node version to use (e.g. '8.x', '10.x', '12.x')
+
+# Define jobs for each stage
+jobs:
+  # Build the project
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
