@@ -14,30 +14,24 @@ env:
 
 # Define jobs for each stage
 jobs:
-  # Build the project
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Sample Azure action
-        with: # Set Azure credentials secret as an input
-          credentials: ${{ secrets.AZURE_CREDENTIALS }}
-        env: # Or as an environment variable
-          credentials: ${{ secrets.AZURE_CREDENTIALS }}
-
       - uses: actions/checkout@v3
-      - name: Install Azure cli
-        run: |
-          sudo apt-get install ca-certificates curl apt-transport-https lsb-release gnupg
-          curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null
-          AZ_REPO=$(lsb_release -cs)
-          echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
-          sudo apt-get update
-          sudo apt-get install azure-cli
-      - uses: azure/login@v1
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build app
+        run: npm run build
+
+      - name: Login to Azure
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS_2 }}
-      - uses: azure/CLI@v1
+
+      - name: Upload to blob storage
+        uses: azure/CLI@v1
         with:
-          azcliversion: 2.0.72
           inlineScript: |
-            az account list
+              az storage blob upload-batch --account-name mvmtestcicd --auth-mode key -d '$web' -s .
