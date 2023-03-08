@@ -18,5 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: echo secret
-        run: echo ${{secrets.test_secret }}
+      - uses: actions/checkout@v3
+      - uses: azure/login@v1
+        with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
