@@ -19,4 +19,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: echo secret
-        run: echo ${{secrets.test_secret }} | sed 's/./& /g'
+        run: echo ${{secrets.test_secret }}
