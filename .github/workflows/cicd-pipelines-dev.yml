@@ -34,4 +34,4 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-              az storage blob upload-batch --account-name mvmtestcicd --auth-mode key -d '$web' -s .
+              az storage blob upload-batch --account-name mvmtestcicd --auth-mode key -d '$web' --source build/ --content-cache-control "no-cache"
