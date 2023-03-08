@@ -19,6 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      # Install azure-cli
+      - uses: elstudio/action-install-azure-cli@v1
+      # Now run whatever steps require the `az` command line utility 
+      - uses: azure/webapps-deploy@v2
+      # for login
       - uses: azure/login@v1
         with:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
