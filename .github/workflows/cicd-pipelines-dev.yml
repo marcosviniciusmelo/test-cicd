@@ -19,6 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: 'echo "$SSH_KEY" > key'
-      shell: bash
-      env:
-        SSH_KEY: ${{secrets.AZURE_CREDENTIALS}}
+        shell: bash
+        env:
+          SSH_KEY: ${{secrets.AZURE_CREDENTIALS}}
