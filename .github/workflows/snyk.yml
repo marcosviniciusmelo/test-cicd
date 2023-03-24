@@ -25,7 +25,8 @@ jobs:
         with:
           name: snyk_results
           path: snyk_results.html
-        if: github.event_name == 'pull_request'
+        # if: github.event_name == 'pull_request'
+
   snyk_scanning_monitor:
     runs-on: ubuntu-latest
     steps:
