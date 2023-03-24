@@ -25,8 +25,17 @@ jobs:
         with:
           name: snyk_results
           path: snyk_results.html
-        # if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request'
 
+  snyk_scanning_monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install npm and snyk
+        run: |
+          npm i -g snyk
+      - name: Authenticate Snyk
+        run: snyk auth $SNYK_TOKEN
       - name: Run Snyk Monitor
         run: snyk monitor --org=marcosviniciusmelo --configuration-matching=default --all-sub-projects
-        # if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/rel.')
+        if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/rel.')
