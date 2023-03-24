@@ -29,4 +29,4 @@ jobs:
 
       - name: Run Snyk Monitor
         run: snyk monitor --org=marcosviniciusmelo --configuration-matching=default --all-sub-projects
-        if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/rel.')
+        # if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/rel.')
