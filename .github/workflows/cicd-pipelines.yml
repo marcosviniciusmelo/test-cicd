@@ -15,3 +15,4 @@ jobs:
         uses: sonarsource/sonarqube-scan-action@master
         with:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
