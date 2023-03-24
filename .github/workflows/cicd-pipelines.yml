@@ -1,4 +1,4 @@
-name: Blob storage website CI
+name: Test Pipeline
 
 on:
     push:
@@ -8,24 +8,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: azure/login@v1
-      with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Upload to blob storage
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-            az storage blob upload-batch --account-name <STORAGE_ACCOUNT_NAME> --auth-mode key -d '$web' -s .
-    - name: Purge CDN endpoint
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-           az cdn endpoint purge --content-paths  "/*" --profile-name "CDN_PROFILE_NAME" --name "CDN_ENDPOINT" --resource-group "RESOURCE_GROUP"
-
-  # Azure logout
-    - name: logout
-      run: |
-            az logout
-      if: always()
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        with:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
