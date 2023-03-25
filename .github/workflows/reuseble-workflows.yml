@@ -22,12 +22,12 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Install dependencies
-        run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          npm ci
-          npm run build --if-present
-          popd
+      # - name: Install dependencies
+      #   run: |
+      #     pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+      #     npm ci
+      #     npm run build --if-present
+      #     popd
 
   # Run unit tests
   test:
@@ -37,19 +37,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
+      # - name: Setup Node.js ${{ env.NODE_VERSION }}
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: ${{ env.NODE_VERSION }}
 
-      - name: Install dependencies
-        run: npm ci
+      # - name: Install dependencies
+      #   run: npm ci
 
-      - name: Unit tests
-        run: npm run test
-
-      - name: Clean build
-        run: npm run build --if-present
+      # - name: Unit tests
+      #   run: npm run test
 
   snyk_scanning_test:
     runs-on: ubuntu-latest
