@@ -13,9 +13,5 @@ jobs:
   test-dev:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.4 # Necessary to access local action
-      - name: Local Action Call
-        id: local-action
-        uses: ./.github/actions/local-action
-        with:
-          name: "World"
+      - run: |
+        ech "World"
