@@ -10,7 +10,7 @@ jobs:
       - run: |
           echo "Running on dev"
 
-  test-dev:
+  cypress-dev:
     runs-on: ubuntu-latest
     needs: [build-dev]
     steps:

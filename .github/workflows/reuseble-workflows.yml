@@ -6,13 +6,16 @@ on:
       - main
       - development
 
+env:
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
 jobs:
 
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v3
@@ -32,7 +35,7 @@ jobs:
     needs: [build]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v3
@@ -48,12 +51,44 @@ jobs:
       - name: Clean build
         run: npm run build --if-present
 
-  workflow-dev:
+  snyk_scanning_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install npm, snyk, and snyk-to-html
+        run: |
+          npm i -g snyk snyk-to-html
+      - name: Authenticate Snyk
+        run: snyk auth $SNYK_TOKEN
+      - name: Run Snyk Test and Generate HTML Report
+        run: |
+          snyk test --org=marcosviniciusmelo --configuration-matching=default --all-sub-projects --severity-threshold=high --json | snyk-to-html -o snyk_results.html
+      - name: Save Report as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: snyk_results
+          path: snyk_results.html
+        if: github.event_name == 'pull_request'
+
+  snyk_scanning_monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install npm and snyk
+        run: |
+          npm i -g snyk
+      - name: Authenticate Snyk
+        run: snyk auth $SNYK_TOKEN
+      - name: Run Snyk Monitor
+        run: snyk monitor --org=marcosviniciusmelo --configuration-matching=default --all-sub-projects
+        if: github.ref == 'refs/heads/main'
+
+  publish_dev:
     needs: [test]
     if: github.ref == 'refs/heads/development'
     uses: marcosviniciusmelo/test-cicd/.github/workflows/reuseble-workflows-dev.yml@main
 
-  workflow-main:
+  publish_main:
     needs: [test]
     if: github.ref == 'refs/heads/main'
     uses: marcosviniciusmelo/test-cicd/.github/workflows/reuseble-workflows-prod.yml@main
