@@ -1,0 +1,13 @@
+name: Reusable workflow DEV
+
+on:
+  workflow_call:
+
+jobs:
+  job-reusable-1:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Waiting 1 minute..."
+          sleep 60
+          echo "Hello World"

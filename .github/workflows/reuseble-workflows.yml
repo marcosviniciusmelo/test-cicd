@@ -1,0 +1,16 @@
+name: Reusable Workflows
+
+on:
+  push:
+    branches:
+      - main
+      - development
+
+jobs:
+  workflow-1:
+    if: github.ref == 'refs/heads/development'
+    uses: marcosviniciusmelo/test-cicd/.github/workflows/reusable-workflows-dev.yml@main
+
+  workflow-2:
+    if: github.ref == 'refs/heads/main'
+    uses: marcosviniciusmelo/test-cicd/.github/workflows/reusable-workflows-prod.yml@main
