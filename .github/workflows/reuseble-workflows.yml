@@ -53,6 +53,7 @@ jobs:
 
   snyk_scanning_test:
     runs-on: ubuntu-latest
+    needs: [test]
     steps:
       - uses: actions/checkout@v3
       - name: Install npm, snyk, and snyk-to-html
@@ -72,6 +73,7 @@ jobs:
 
   snyk_scanning_monitor:
     runs-on: ubuntu-latest
+    needs: [test]
     steps:
       - uses: actions/checkout@v3
       - name: Install npm and snyk
@@ -84,11 +86,11 @@ jobs:
         if: github.ref == 'refs/heads/main'
 
   publish_dev:
-    needs: [test]
+    needs: [snyk_scanning_monitor, snyk_scanning_test]
     if: github.ref == 'refs/heads/development'
     uses: marcosviniciusmelo/test-cicd/.github/workflows/reuseble-workflows-dev.yml@main
 
   publish_main:
-    needs: [test]
+    needs: [snyk_scanning_monitor, snyk_scanning_test]
     if: github.ref == 'refs/heads/main'
     uses: marcosviniciusmelo/test-cicd/.github/workflows/reuseble-workflows-prod.yml@main
