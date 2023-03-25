@@ -12,6 +12,7 @@ jobs:
 
   test-dev:
     runs-on: ubuntu-latest
+    needs: [build-dev]
     steps:
       - run: |
-        echo "World"
+          echo "Running on dev"
