@@ -7,10 +7,10 @@ on:
       - development
 
 jobs:
-  workflow-1:
+  workflow-dev:
     if: github.ref == 'refs/heads/development'
     uses: marcosviniciusmelo/test-cicd/.github/workflows/reuseble-workflows-dev.yml@main
 
-  workflow-2:
+  workflow-main:
     if: github.ref == 'refs/heads/main'
     uses: marcosviniciusmelo/test-cicd/.github/workflows/reuseble-workflows-prod.yml@main
