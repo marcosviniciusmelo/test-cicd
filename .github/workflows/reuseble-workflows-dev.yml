@@ -9,4 +9,4 @@ jobs:
     environment: dev
     steps:
       - name: Echo Secret
-        run: echo ${{ secrets.TEST_SECRET }}
+        run: echo "${{ secrets.TEST_SECRET }}"
