@@ -4,10 +4,8 @@ on:
   workflow_call:
 
 jobs:
-  job-reusable-1:
+  build-prod:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "Waiting 1 minute..."
-          sleep 60
-          echo "Hello World"
+          echo "Running on prod"

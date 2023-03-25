@@ -4,21 +4,15 @@ on:
   workflow_call:
 
 jobs:
-  job-reusable-1:
+  build-dev:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "Waiting 1 minute..."
-          sleep 60
-          echo "Hello World"
-  job-reusable-2:
+          echo "Running on dev"
+
+  test-dev:
     runs-on: ubuntu-latest
+    needs: [build-dev]
     steps:
-      - uses: actions/checkout@v2.3.4 # Necessary to access local action
-      - name: Local Action Call
-        id: local-action
-        uses: ./.github/actions/local-action
-        with:
-          name: "World"
-      - name: Local Action Output
-        run: echo "${{ steps.local-action.outputs.random }}"
+      - run: |
+          echo "Running on dev"
