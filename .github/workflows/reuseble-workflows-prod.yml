@@ -1,4 +1,4 @@
-name: Reusable workflow DEV
+name: Reusable workflow PROD
 
 on:
   workflow_call:
@@ -6,6 +6,7 @@ on:
 jobs:
   build-prod:
     runs-on: ubuntu-latest
+    environment: prod
     steps:
       - run: |
-          echo "Running on prod"
+          echo ${{ secrets.TEST_SECRET }}
