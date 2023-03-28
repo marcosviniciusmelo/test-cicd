@@ -8,18 +8,18 @@ on:
 
 env:
   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-  TEST: ${{ env.TEST }}
 
 jobs:
 
   build:
     runs-on: ubuntu-latest
+    environment: dev
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Setup Node.js
-        run: echo "${{ env.TEST }}"
+        run: echo ${{ env.TEST }}
 
       # - name: Install dependencies
       #   run: |
