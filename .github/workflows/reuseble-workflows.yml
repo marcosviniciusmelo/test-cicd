@@ -6,27 +6,19 @@ on:
   pull_request:
     branches: [main, development]
 
-# env:
-#   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+env:
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
 jobs:
 
-  build:
+  my-job:
     runs-on: ubuntu-latest
-    environment: dev
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/development' }}
+    environment:
+      name: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        run: echo ${{ vars.TEST }}
-
-      # - name: Install dependencies
-      #   run: |
-      #     pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-      #     npm ci
-      #     npm run build --if-present
-      #     popd
+      - name: Use environment variable
+        run: echo "The environment is ${{ vars.TEST }}"
 
   # Run unit tests
   # test:
