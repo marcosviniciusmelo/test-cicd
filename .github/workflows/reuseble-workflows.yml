@@ -2,15 +2,12 @@ name: Reusable Workflows
 
 on:
   push:
-    branches:
-      - main
-      - development
+    branches: [main, development]
+  pull_request:
+    branches: [main, development]
 
 # env:
 #   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
-# env_var:
-#   ${{ vars.TEST }}
 
 jobs:
 
