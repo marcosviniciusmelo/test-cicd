@@ -8,7 +8,7 @@ on:
 
 env:
   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-  TEST: aaaa
+  TEST: ${{ env.TEST }}
 
 jobs:
 
