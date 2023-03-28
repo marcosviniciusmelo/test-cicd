@@ -8,18 +8,21 @@ on:
 
 env:
   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-  if: github.ref == 'refs/heads/development'
-    environment: dev
-  if: github.ref == 'refs/heads/main'
-    environment: prod
-
 
 jobs:
 
   build:
     runs-on: ubuntu-latest
-    environment: ${{ env.environment }}
     steps:
+
+      - name: Print environment variable
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "main"
+          elif [ "${{ github.ref }}" = "refs/heads/develop" ]; then
+            echo "dev"
+          fi
+
       - name: Echo 01
         run: echo ${{ env.environment }}
 
