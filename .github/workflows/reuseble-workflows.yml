@@ -6,19 +6,24 @@ on:
   pull_request:
     branches: [main, development]
 
-# env:
-#   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+env:
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  if: github.ref == 'refs/heads/development'
+    environment: dev
+  if: github.ref == 'refs/heads/main'
+    environment: prod
 
 
 jobs:
 
   build:
     runs-on: ubuntu-latest
+    environment: ${{ env.environment }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Echo 01
+        run: echo ${{ env.environment }}
 
-      - name: Setup Node.js
+      - name: Echo 02
         run: echo ${{ vars.TEST }}
 
       # - name: Install dependencies
