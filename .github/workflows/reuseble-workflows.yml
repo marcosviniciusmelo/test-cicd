@@ -2,18 +2,17 @@ name: Reusable Workflows
 
 on:
   push:
-    branches: [development]
+    branches: [main, development]
   pull_request:
-    branches: [main]
+    branches: [main, development]
 
-# env:
-#   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+env:
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
 jobs:
 
   build:
     runs-on: ubuntu-latest
-    environment: dev
     steps:
     - name: Set environment variable
       run: |
