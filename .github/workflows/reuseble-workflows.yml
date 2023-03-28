@@ -14,7 +14,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    environment: dev
+    environment: environment: ${{ vars.ENVIRONMENT_STAGE }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
