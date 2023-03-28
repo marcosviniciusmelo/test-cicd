@@ -15,11 +15,17 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        run: echo ${{ vars.TEST }}
+    - name: Set environment variable
+      run: |
+        if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+          echo "Setting MY_ENVIRONMENT to production"
+          echo "MY_ENVIRONMENT=production" >> $GITHUB_ENV
+        elif [ "${{ github.ref }}" = "refs/heads/development" ]; then
+          echo "Setting MY_ENVIRONMENT to staging"
+          echo "MY_ENVIRONMENT=staging" >> $GITHUB_ENV
+        fi
+    - name: Use environment variable
+      run: echo "The environment is ${{ env.MY_ENVIRONMENT }}"
 
       # - name: Install dependencies
       #   run: |
