@@ -6,21 +6,23 @@ on:
       - main
       - development
 
-env:
-  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+# env:
+#   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+# env_var:
+#   ${{ vars.TEST }}
 
 jobs:
 
   build:
     runs-on: ubuntu-latest
+    environment: dev
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
+      - name: Setup Node.js
+        run: echo ${{ vars.TEST }}
 
       # - name: Install dependencies
       #   run: |
@@ -30,78 +32,78 @@ jobs:
       #     popd
 
   # Run unit tests
-  test:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  # test:
+  #   runs-on: ubuntu-latest
+  #   needs: [build]
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
 
-      # - name: Setup Node.js ${{ env.NODE_VERSION }}
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: ${{ env.NODE_VERSION }}
+  #     # - name: Setup Node.js ${{ env.NODE_VERSION }}
+  #     #   uses: actions/setup-node@v3
+  #     #   with:
+  #     #     node-version: ${{ env.NODE_VERSION }}
 
-      # - name: Install dependencies
-      #   run: npm ci
+  #     # - name: Install dependencies
+  #     #   run: npm ci
 
-      # - name: Unit tests
-      #   run: npm run test
+  #     # - name: Unit tests
+  #     #   run: npm run test
 
-  snyk_scanning_test:
-    runs-on: ubuntu-latest
-    needs: [test]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install npm, snyk, and snyk-to-html
-        run: |
-          npm i -g snyk snyk-to-html
-      - name: Authenticate Snyk
-        run: snyk auth $SNYK_TOKEN
-      - name: Run Snyk Test and Generate HTML Report
-        run: |
-          snyk test --org=marcosviniciusmelo --configuration-matching=default --all-sub-projects --severity-threshold=high --json | snyk-to-html -o snyk_results.html
-      - name: Save Report as Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: snyk_results
-          path: snyk_results.html
-        if: github.event_name == 'pull_request'
+  # snyk_scanning_test:
+  #   runs-on: ubuntu-latest
+  #   needs: [test]
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Install npm, snyk, and snyk-to-html
+  #       run: |
+  #         npm i -g snyk snyk-to-html
+  #     - name: Authenticate Snyk
+  #       run: snyk auth $SNYK_TOKEN
+  #     - name: Run Snyk Test and Generate HTML Report
+  #       run: |
+  #         snyk test --org=marcosviniciusmelo --configuration-matching=default --all-sub-projects --severity-threshold=high --json | snyk-to-html -o snyk_results.html
+  #     - name: Save Report as Artifact
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: snyk_results
+  #         path: snyk_results.html
+  #       if: github.event_name == 'pull_request'
 
-  snyk_scanning_monitor:
-    runs-on: ubuntu-latest
-    needs: [test]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install npm and snyk
-        run: |
-          npm i -g snyk
-      - name: Authenticate Snyk
-        run: snyk auth $SNYK_TOKEN
-      - name: Run Snyk Monitor
-        run: snyk monitor --org=marcosviniciusmelo --configuration-matching=default --all-sub-projects
-        if: github.ref == 'refs/heads/main'
+  # snyk_scanning_monitor:
+  #   runs-on: ubuntu-latest
+  #   needs: [test]
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Install npm and snyk
+  #       run: |
+  #         npm i -g snyk
+  #     - name: Authenticate Snyk
+  #       run: snyk auth $SNYK_TOKEN
+  #     - name: Run Snyk Monitor
+  #       run: snyk monitor --org=marcosviniciusmelo --configuration-matching=default --all-sub-projects
+  #       if: github.ref == 'refs/heads/main'
 
-  sonarqube_scanning:
-    runs-on: ubuntu-latest
-    needs: [test]
-    steps:
-      - name: Echo Secret
-        run: echo "sonarqube"
+  # sonarqube_scanning:
+  #   runs-on: ubuntu-latest
+  #   needs: [test]
+  #   steps:
+  #     - name: Echo Secret
+  #       run: echo "sonarqube"
 
-  nessus_scanning:
-    runs-on: ubuntu-latest
-    needs: [test]
-    steps:
-      - name: Echo Secret
-        run: echo "nessus"
+  # nessus_scanning:
+  #   runs-on: ubuntu-latest
+  #   needs: [test]
+  #   steps:
+  #     - name: Echo Secret
+  #       run: echo "nessus"
 
-  publish_dev:
-    needs: [snyk_scanning_monitor, snyk_scanning_test]
-    if: github.ref == 'refs/heads/development'
-    uses: marcosviniciusmelo/test-cicd/.github/workflows/reuseble-workflows-dev.yml@main
+  # publish_dev:
+  #   needs: [snyk_scanning_monitor, snyk_scanning_test]
+  #   if: github.ref == 'refs/heads/development'
+  #   uses: marcosviniciusmelo/test-cicd/.github/workflows/reuseble-workflows-dev.yml@main
 
-  publish_main:
-    needs: [snyk_scanning_monitor, snyk_scanning_test]
-    if: github.ref == 'refs/heads/main'
-    uses: marcosviniciusmelo/test-cicd/.github/workflows/reuseble-workflows-prod.yml@main
+  # publish_main:
+  #   needs: [snyk_scanning_monitor, snyk_scanning_test]
+  #   if: github.ref == 'refs/heads/main'
+  #   uses: marcosviniciusmelo/test-cicd/.github/workflows/reuseble-workflows-prod.yml@main
