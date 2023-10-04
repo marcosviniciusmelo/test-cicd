@@ -26,7 +26,7 @@
     "snyk": "^1.1108.0",
     "supertest": "^6.3.3",
     "utf8": "^3.0.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.1"
   },
   "nodemonConfig": {
     "exec": "node index -dev",
